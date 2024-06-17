@@ -5,9 +5,11 @@ import {
   persistReducer,
 } from 'redux-persist';
 import userReducer from './user/userSlice';
+import themeReducer from './theme/themeSlice';
 
 const rootReducer = combineReducers({
-  user: userReducer
+  user: userReducer,
+  theme: themeReducer,
 })
 
 const persistConfig = {
