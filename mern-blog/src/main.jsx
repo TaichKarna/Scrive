@@ -13,7 +13,7 @@ import Dashboard from './pages/Dashboard.jsx'
 import Projects from './pages/Projects.jsx'
 import Singin from './pages/Signin.jsx'
 import SignUp from './pages/SignUp.jsx'
-
+import PrivateRoute from './components/PrivateRoute.jsx'
 
 const router = createBrowserRouter([
   {
@@ -25,8 +25,13 @@ const router = createBrowserRouter([
         element:<About/>
       },
       {
-        path:"/dashboard",
-        element:<Dashboard/>
+        element: <PrivateRoute/>,
+        children: [
+          {
+            path:"/dashboard",
+            element: <Dashboard/>
+          }
+        ]
       },
       {
         path:"/projects",
