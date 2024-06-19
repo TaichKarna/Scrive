@@ -1,4 +1,3 @@
-const { coreModule } = require('@reduxjs/toolkit/query');
 const { default: mongoose } = require('mongoose');
 
 const Schema  = require('mongoose').Schema
@@ -20,7 +19,7 @@ const postModel = new Schema({
     },
     image: {
         type: String,
-        default: "",
+        default: "https://www.hostinger.com/tutorials/wp-content/uploads/sites/2/2021/09/how-to-write-a-blog-post.png",
     },
     category: {
         type: String,
