@@ -51,7 +51,7 @@ const signin = async (req, res, next) => {
         const {password: pass, ...rest} = validUser._doc;
 
         const token = jwt.sign(
-        {id: validUser._id}, process.env.JWT_SECRET_KEY
+        {id: validUser._id, isAdmin: validUser.isAdmin}, process.env.JWT_SECRET_KEY
         )
 
         res.status(200).cookie("access_token",token,{
@@ -72,7 +72,7 @@ const google = async (req, res, next) => {
 
         if(user){
             const token = jwt.sign(
-                {id: user._id}, process.env.JWT_SECRET_KEY
+                {id: user._id, isAdmin: user.isAdmin}, process.env.JWT_SECRET_KEY
                 ); 
 
             const {password, ...rest} = user._doc;
@@ -92,7 +92,7 @@ const google = async (req, res, next) => {
 
                 await user.save();
                 const token = jwt.sign(
-                    {id: user._id}, process.env.JWT_SECRET_KEY
+                    {id: user._id, isAdmin: user.isAdmin}, process.env.JWT_SECRET_KEY
                     ); 
     
                 const {password, ...rest} = user._doc;
