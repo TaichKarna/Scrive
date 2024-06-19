@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 require('dotenv').config()
 const userRouter = require('./routes/user.route')
 const authRouter = require('./routes/auth.route')
+const postRouter = require('./routes/post.route')
 const cookieParser = require('cookie-parser')
 
 const app = express();
@@ -22,6 +23,7 @@ app.use(express.urlencoded())
 
 app.use("/api/user",userRouter)
 app.use("/api/auth",authRouter)
+app.use("/api/post",postRouter);
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;

@@ -2,7 +2,6 @@ import {
   TextInput, Select,
   FileInput, Button,
 } from 'flowbite-react'
-import { useState } from 'react'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 
