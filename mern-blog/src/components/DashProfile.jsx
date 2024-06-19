@@ -4,7 +4,14 @@ import { useEffect, useRef, useState } from 'react';
 import {getDownloadURL, getStorage, ref, uploadBytesResumable} from 'firebase/storage';
 import {app} from '../firebase';
 import  {CircularProgressbar} from 'react-circular-progressbar';
-import {updateSuccess, updateFailure, updateStart, deleteFailure, deleteStart, deleteSuccess} from '../redux/user/userSlice';
+import {updateSuccess, 
+  updateFailure, 
+  updateStart, 
+  deleteFailure, 
+  deleteStart, 
+  deleteSuccess,
+  signOutSuccess
+} from '../redux/user/userSlice';
 import { useDispatch } from 'react-redux';
 import {HiOutlineExclamationCircle} from 'react-icons/hi'
 import {useNavigate} from 'react-router-dom';
@@ -123,7 +130,7 @@ export default function DashProfile() {
 
   const handleDelete = async () => {
     setShowDeleteModal(false);
-    
+
     try{
       dispatch(deleteStart());
       const response = await fetch(`/api/user/delete/${currentUser._id}`, 
@@ -147,9 +154,27 @@ export default function DashProfile() {
     }
   }
 
-  const handleSignOut = async () => {
 
+  const handleSignOut = async () => {
+    try {
+      const response = await fetch('/api/user/signout',{
+        method: 'POST'
+      });
+      const data = await response.json();
+    
+      if(!response.ok){
+        console.log(data.message);
+      } else {
+        dispatch(signOutSuccess());
+        navigate("/");
+      }
+    
+    } catch(error) {
+      console.log(error.message);
+    }
   }
+
+  
 
   return (
     <div className="max-w-lg mx-auto p-3 w-full">
