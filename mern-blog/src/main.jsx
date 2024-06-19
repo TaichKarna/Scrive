@@ -14,6 +14,8 @@ import Projects from './pages/Projects.jsx'
 import Singin from './pages/Signin.jsx'
 import SignUp from './pages/SignUp.jsx'
 import PrivateRoute from './components/PrivateRoute.jsx'
+import AdminRoute from './components/AdminRoute.jsx'
+import CreatePost from './pages/CreatePost.jsx'
 
 const router = createBrowserRouter([
   {
@@ -30,6 +32,15 @@ const router = createBrowserRouter([
           {
             path:"/dashboard",
             element: <Dashboard/>
+          }
+        ]
+      },
+      {
+        element: <AdminRoute/>,
+        children: [
+          {
+            path:"/create-post",
+            element: <CreatePost/>
           }
         ]
       },
