@@ -16,6 +16,7 @@ import SignUp from './pages/SignUp.jsx'
 import PrivateRoute from './components/PrivateRoute.jsx'
 import AdminRoute from './components/AdminRoute.jsx'
 import CreatePost from './pages/CreatePost.jsx'
+import UpdatePost from './pages/UpdatePost.jsx'
 
 const router = createBrowserRouter([
   {
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
           {
             path:"/create-post",
             element: <CreatePost/>
+          },
+          {
+            path: "/update-post/:postId",
+            element: <UpdatePost/>
           }
         ]
       },

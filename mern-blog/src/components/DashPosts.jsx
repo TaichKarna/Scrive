@@ -3,7 +3,6 @@ import { useSelector } from "react-redux"
 import {Table, Modal, Button} from 'flowbite-react'
 import {Link} from 'react-router-dom'
 import {HiOutlineExclamationCircle} from 'react-icons/hi'
-import { current } from "@reduxjs/toolkit"
 
 export default function DashPosts(){
     const { currentUser } = useSelector( state => state.user);
