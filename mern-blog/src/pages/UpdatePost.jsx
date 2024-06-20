@@ -73,7 +73,7 @@ useEffect(() => {
           const progress = snapshot.bytesTransferred / snapshot.totalBytes * 100;
           setImageUploadProgress(progress.toFixed(0)); 
         },
-        (error) => {
+        () => {
           setImageUploadError("Could not upload image");
           setImageUploadProgress(null);
         },
