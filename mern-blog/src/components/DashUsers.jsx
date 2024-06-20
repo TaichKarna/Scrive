@@ -3,67 +3,66 @@ import { useSelector } from "react-redux"
 import {Table, Modal, Button} from 'flowbite-react'
 import {Link} from 'react-router-dom'
 import {HiOutlineExclamationCircle} from 'react-icons/hi'
+import {FaCheck, FaTimes} from 'react-icons/fa'
 
-export default function DashPosts(){
+export default function DashUsers(){
     const { currentUser } = useSelector( state => state.user);
-    const [userPosts, setUserPosts] = useState([]);
+    const [users, setUsers] = useState([]);
     const [showMore, setShowMore] = useState(true);
     const [showModal, setShowModal] = useState(false);
-    const [postIdToDelete, setPostIdToDelete] = useState(null);
+    const [userIdToDelete, setUserIdToDelete] = useState(null);
 
     useEffect(() => {
 
-        const fetchPosts = async () => {
+        const fetchUsers = async () => {
            try{
-                const res = await fetch(`/api/post/getposts?userId=${currentUser._id}`);
+                const res = await fetch(`/api/user/getusers`);
                 const data = await res.json();
 
                 if(res.ok){
-                    setUserPosts(data.posts);
-                    if (data.posts.length < 9) setShowMore(false);
+                    setUsers(data.users);
+                    if (data.users.length < 9) setShowMore(false);
                 } else {
-                    setUserPosts([]);
+                    setUsers([]);
                 }
            } catch (error) {
                 console.log(error.message);
            }
         }
 
-        if(currentUser.isAdmin) fetchPosts();
-    },[currentUser._id, currentUser.isAdmin]);
+        if(currentUser.isAdmin) fetchUsers();
+    },[currentUser.isAdmin]);
 
     const handleShowMore = async () => {
-        const startIndex = userPosts.length;
+        const startIndex = users.length;
         try {
-            const res = await fetch(`/api/post/getposts?userId=${currentUser._id}&startIndex=${startIndex}`);
+            const res = await fetch(`/api/user/getusers?startIndex=${startIndex}`);
                 const data = await res.json();
 
                 if(res.ok){
-                    const updatedPosts = userPosts.concat(data.posts)
-                    setUserPosts(updatedPosts);
-                    if(updatedPosts.length >= data.totalPosts) setShowMore(false);
-                } else {
-                    setUserPosts([]);
+                    const updatedUsers = users.concat(data.users)
+                    setUsers(updatedUsers);
+                    if(updatedUsers.length >= data.totalUsers) setShowMore(false);
                 }
+
         } catch(error) {
             console.log(error.message)
         }
     }
 
-    const handlePostDelete = async () => {
+    const handleDeleteUser = async () => {
         setShowModal(false);
 
         try{
-            const res = await fetch(`/api/post/deletepost/${postIdToDelete}/${currentUser._id}`, {
+            const res = await fetch(`/api/user/delete/${userIdToDelete}`, {
                 method: 'DELETE',
             });
-
             const data = await res.json();
             if(!res.ok) {
                 console.log(data.message)
             } else {
-                setUserPosts( (prev) => prev.filter( (post) => post._id !== postIdToDelete ));
-                setPostIdToDelete(null);
+                setUsers( (prev) => prev.filter( (user) => user._id !== userIdToDelete));
+                setUserIdToDelete(null);
             }
 
         } catch (error) {
@@ -72,51 +71,47 @@ export default function DashPosts(){
     }
 
     return (
-        <div className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300
+        <div className="table-auto overflow-x-scroll mx-3 md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300
         dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500">
-            {currentUser.isAdmin && userPosts.length > 0 ? (
+            {currentUser.isAdmin && users.length > 0 ? (
                  <>
                  <Table hoverable className="shadow-md">
                     <Table.Head>
-                        <Table.HeadCell>Date Updated</Table.HeadCell>
-                        <Table.HeadCell>Post Image</Table.HeadCell>
-                        <Table.HeadCell>Post Title</Table.HeadCell>
-                        <Table.HeadCell>Category</Table.HeadCell>
+                        <Table.HeadCell>Date created</Table.HeadCell>
+                        <Table.HeadCell>Profile Image</Table.HeadCell>
+                        <Table.HeadCell>Username</Table.HeadCell>
+                        <Table.HeadCell>Email</Table.HeadCell>
+                        <Table.HeadCell>Admin</Table.HeadCell>
                         <Table.HeadCell>Delete</Table.HeadCell>
-                        <Table.HeadCell>Edit</Table.HeadCell>
                     </Table.Head>
                     <Table.Body className="divide-y">
                         {
-                            userPosts.map( (post) => 
-                                <Table.Row key={post.title} className='bg-white dark:border-gray-700 dark:bg-gray-800'>
+                            users.map( (user) => 
+                                <Table.Row key={user.username} className='bg-white dark:border-gray-700 dark:bg-gray-800'>
                                     <Table.Cell>
-                                        {new Date(post.updatedAt).toLocaleDateString()}
+                                        {new Date(user.createdAt).toLocaleDateString()}
                                     </Table.Cell>
-                                    <Table.Cell>
-                                        <Link to={`/post/${post.slug}`}>
-                                            <img src={post.image} alt="" className="w-20 h-10 object-cover bg-gray-500"/>
+                                    <Table.Cell className="">
+                                        <Link to={`${user.profilePicture}`}>
+                                            <img src={user.profilePicture} alt={user.username} className="w-12 h-12 object-cover bg-gray-500 rounded-full mx-auto"/>
                                         </Link>
                                     </Table.Cell>
                                     <Table.Cell>
-                                        <Link to={`/post/${post.slug}`} className="font-medium text-gray-900 dark:text-white">
-                                            {post.title}    
-                                        </Link>
+                                        {user.username}    
                                     </Table.Cell>
                                     <Table.Cell>
-                                        {post.category}
+                                        {user.email}
                                     </Table.Cell>
                                     <Table.Cell>
-                                        <span className="text-red-500 hover:underline font-medium cursor-pointer" onClick={() => {
+                                        {user.isAdmin? (<FaCheck className='text-green-500'/>) : <FaTimes className='text-red-500'/>}
+                                    </Table.Cell>
+                                    <Table.Cell>                                
+                                       <span className="text-red-500 hover:underline font-medium cursor-pointer" onClick={() => {
                                             setShowModal(true);
-                                            setPostIdToDelete(post._id);
+                                            setUserIdToDelete(user._id);
                                         }}>
                                             Delete
                                         </span>
-                                    </Table.Cell>
-                                    <Table.Cell>
-                                        <Link to={`/update-post/${post._id}`} className="text-teal-500">
-                                            <span>Edit</span>
-                                        </Link>
                                     </Table.Cell>
                                 </Table.Row>
                             )
@@ -131,7 +126,7 @@ export default function DashPosts(){
                  }
                  </>
             ) :
-            ( <p>You have no post yet</p> )
+            ( <p>You have no user yet</p> )
             }
             {
              <Modal show={showModal} size={'md'} onClose={() => setShowModal(false)} popup>
@@ -140,10 +135,10 @@ export default function DashPosts(){
                     <div className='text-center'>
                     <HiOutlineExclamationCircle className='mx-auto w-14 h-14 text-gray-400 mb-4'/>
                     <h3 className='text-gray-500 text-lg font-normal mb-5 dark:text-gray-400'>
-                        Are you sure you want to delete this post?
+                        Are you sure you want to delete this user?
                     </h3>
                     <div className='flex justify-center gap-5'>
-                        <Button color='failure' onClick={handlePostDelete}>
+                        <Button color='failure' onClick={handleDeleteUser}>
                         {"Yes, I'm sure"}
                         </Button>
                         <Button color='gray' onClick={() => setShowModal(false)}>
