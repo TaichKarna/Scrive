@@ -17,6 +17,7 @@ import PrivateRoute from './components/PrivateRoute.jsx'
 import AdminRoute from './components/AdminRoute.jsx'
 import CreatePost from './pages/CreatePost.jsx'
 import UpdatePost from './pages/UpdatePost.jsx'
+import PostPage from './pages/PostPage.jsx'
 
 const router = createBrowserRouter([
   {
@@ -60,6 +61,10 @@ const router = createBrowserRouter([
       {
         path:"/sign-up",
         element:<SignUp/>
+      },
+      {
+        path:"/post/:postSlug",
+        element: <PostPage/>
       }
     ]
   },
