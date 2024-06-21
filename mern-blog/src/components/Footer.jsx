@@ -10,7 +10,7 @@ export default function FooterBlog() {
             <div className="mt-5">
                 <Link to={`/`}  className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white">
               <span className="px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500
-              rounded-lg text-white">Taichi's</span>Blog
+              rounded-lg text-white">{"Taichi's"}</span>Blog
                 </Link>
             </div>
             <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3 mt-4">

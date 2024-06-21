@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import {Button, Spinner} from 'flowbite-react';
+import CallToAction from "../components/CallToAction";
+import CommentSection from "../components/CommentSection";
 
 export default function Post(){
     const {postSlug} = useParams();
@@ -58,9 +60,13 @@ export default function Post(){
                 <span>{post && new Date(post.createdAt).toLocaleDateString()}</span>
                 <span className="italic">{post && (post.content.length / 1000).toFixed(0)} mins read</span>
             </div>
-            <div dangerouslySetInnerHTML={{__html: post && post.content}} className="post-content p-3 max-w-2xl mx-auto w-full">
+            <div dangerouslySetInnerHTML={{__html: post && post.content}} className="post-content 1p-3 max-w-2xl mx-auto w-full">
 
             </div>
+            {/* <div className="max-w-4xl mx-auto w-full">
+                <CallToAction/>
+            </div> */}
+            <CommentSection postId={post._id}/>
         </main>
     )
 }
