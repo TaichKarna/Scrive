@@ -1,50 +1,48 @@
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import {Table, Modal, Button} from 'flowbite-react'
-import {Link} from 'react-router-dom'
 import {HiOutlineExclamationCircle} from 'react-icons/hi'
-import {FaCheck, FaTimes} from 'react-icons/fa'
 
-export default function DashUsers(){
+export default function DashComments(){
     const { currentUser } = useSelector( state => state.user);
-    const [users, setUsers] = useState([]);
+    const [comments, setComments] = useState([]);
     const [showMore, setShowMore] = useState(true);
     const [showModal, setShowModal] = useState(false);
-    const [userIdToDelete, setUserIdToDelete] = useState(null);
-    const [totalUsers, setTotalUsers] = useState(null);
-    
+    const [commentToDelete, setCommentToDelete] = useState(null);
+    const [totalComments, setTotalComments] = useState(null);
+
     useEffect(() => {
 
-        const fetchUsers = async () => {
+        const fetchComments = async () => {
            try{
-                const res = await fetch(`/api/user/getusers`);
+                const res = await fetch(`/api/comment/getcomments`);
                 const data = await res.json();
 
                 if(res.ok){
-                    setUsers(data.users);
-                    setTotalUsers(data.totalUsers);
-                    if (data.users.length < 9) setShowMore(false);
+                    setComments(data.comments);
+                    setTotalComments(data.totalComments);
+                    if (data.comments.length < 9) setShowMore(false);
                 } else {
-                    setUsers([]);
+                    setComments([]);
                 }
            } catch (error) {
                 console.log(error.message);
            }
         }
 
-        if(currentUser.isAdmin) fetchUsers();
+        if(currentUser.isAdmin) fetchComments();
     },[currentUser.isAdmin]);
 
     const handleShowMore = async () => {
-        const startIndex = users.length;
+        const startIndex = comments.length;
         try {
-            const res = await fetch(`/api/user/getusers?startIndex=${startIndex}`);
+            const res = await fetch(`/api/comment/getcomments?startIndex=${startIndex}`);
                 const data = await res.json();
 
                 if(res.ok){
-                    const updatedUsers = users.concat(data.users)
-                    setUsers(updatedUsers);
-                    if(updatedUsers.length >= data.totalUsers) setShowMore(false);
+                    const updatedComments = comments.concat(data.comments)
+                    setComments(updatedComments);
+                    if(updatedComments.length >= data.totalComments) setShowMore(false);
                 }
 
         } catch(error) {
@@ -52,19 +50,19 @@ export default function DashUsers(){
         }
     }
 
-    const handleDeleteUser = async () => {
+    const handleDeleteComment = async () => {
         setShowModal(false);
 
         try{
-            const res = await fetch(`/api/user/delete/${userIdToDelete}`, {
+            const res = await fetch(`/api/comment/deletecomment/${commentToDelete}/${currentUser._id}`, {
                 method: 'DELETE',
             });
             const data = await res.json();
             if(!res.ok) {
                 console.log(data.message)
             } else {
-                setUsers( (prev) => prev.filter( (user) => user._id !== userIdToDelete));
-                setUserIdToDelete(null);
+                setComments( (prev) => prev.filter( (comment) => comment._id !== commentToDelete));
+                setCommentToDelete(null);
             }
 
         } catch (error) {
@@ -75,42 +73,40 @@ export default function DashUsers(){
     return (
         <div className="table-auto overflow-x-scroll mx-3 md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300
         dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500">
-            {currentUser.isAdmin && users.length > 0 ? (
+            {currentUser.isAdmin && comments.length > 0 ? (
                  <>
                  <Table hoverable className="shadow-md">
                     <Table.Head>
-                        <Table.HeadCell>Date created</Table.HeadCell>
-                        <Table.HeadCell>Profile Image</Table.HeadCell>
-                        <Table.HeadCell>Username</Table.HeadCell>
-                        <Table.HeadCell>Email</Table.HeadCell>
-                        <Table.HeadCell>Admin</Table.HeadCell>
+                        <Table.HeadCell>Date updated</Table.HeadCell>
+                        <Table.HeadCell>Content</Table.HeadCell>
+                        <Table.HeadCell>Number of likes</Table.HeadCell>
+                        <Table.HeadCell>Post Id</Table.HeadCell>
+                        <Table.HeadCell>User Id</Table.HeadCell>
                         <Table.HeadCell>Delete</Table.HeadCell>
                     </Table.Head>
                     <Table.Body className="divide-y">
                         {
-                            users.map( (user) => 
-                                <Table.Row key={user.username} className='bg-white dark:border-gray-700 dark:bg-gray-800'>
+                            comments.map( (comment) => 
+                                <Table.Row key={comment._id} className='bg-white dark:border-gray-700 dark:bg-gray-800'>
                                     <Table.Cell>
-                                        {new Date(user.createdAt).toLocaleDateString()}
+                                        {new Date(comment.updatedAt).toLocaleDateString()}
                                     </Table.Cell>
                                     <Table.Cell className="">
-                                        <Link to={`${user.profilePicture}`}>
-                                            <img src={user.profilePicture} alt={user.username} className="w-12 h-12 object-cover bg-gray-500 rounded-full mx-auto"/>
-                                        </Link>
+                                        {comment.content}
                                     </Table.Cell>
                                     <Table.Cell>
-                                        {user.username}    
+                                        {comment.numberOfLikes}    
                                     </Table.Cell>
                                     <Table.Cell>
-                                        {user.email}
+                                        {comment.postId}
                                     </Table.Cell>
                                     <Table.Cell>
-                                        {user.isAdmin? (<FaCheck className='text-green-500'/>) : <FaTimes className='text-red-500'/>}
+                                        {comment.userId}
                                     </Table.Cell>
                                     <Table.Cell>                                
                                        <span className="text-red-500 hover:underline font-medium cursor-pointer" onClick={() => {
                                             setShowModal(true);
-                                            setUserIdToDelete(user._id);
+                                            setCommentToDelete(comment._id);
                                         }}>
                                             Delete
                                         </span>
@@ -121,14 +117,14 @@ export default function DashUsers(){
                     </Table.Body>
                  </Table>
                  {
-                    showMore && (users.length >= 9 && users.length < totalUsers) &&
+                    showMore && (comments.length >= 9 && comments.length < totalComments) && 
                     <button className="w-full text-teal-500 self-center text-sm py-7" onClick={handleShowMore}>
                         Show More
                     </button>
                  }
                  </>
             ) :
-            ( <p>You have no user yet</p> )
+            ( <p>You have no comment yet</p> )
             }
             {
              <Modal show={showModal} size={'md'} onClose={() => setShowModal(false)} popup>
@@ -137,10 +133,10 @@ export default function DashUsers(){
                     <div className='text-center'>
                     <HiOutlineExclamationCircle className='mx-auto w-14 h-14 text-gray-400 mb-4'/>
                     <h3 className='text-gray-500 text-lg font-normal mb-5 dark:text-gray-400'>
-                        Are you sure you want to delete this user?
+                        Are you sure you want to delete this comment?
                     </h3>
                     <div className='flex justify-center gap-5'>
-                        <Button color='failure' onClick={handleDeleteUser}>
+                        <Button color='failure' onClick={handleDeleteComment}>
                         {"Yes, I'm sure"}
                         </Button>
                         <Button color='gray' onClick={() => setShowModal(false)}>

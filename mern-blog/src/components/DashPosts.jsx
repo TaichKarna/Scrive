@@ -10,9 +10,10 @@ export default function DashPosts(){
     const [showMore, setShowMore] = useState(true);
     const [showModal, setShowModal] = useState(false);
     const [postIdToDelete, setPostIdToDelete] = useState(null);
-
+    const [totalPosts, setTotalPosts] = useState(null);
+    
     useEffect(() => {
-
+    
         const fetchPosts = async () => {
            try{
                 const res = await fetch(`/api/post/getposts?userId=${currentUser._id}`);
@@ -20,6 +21,7 @@ export default function DashPosts(){
 
                 if(res.ok){
                     setUserPosts(data.posts);
+                    setTotalPosts(data.totalPosts);
                     if (data.posts.length < 9) setShowMore(false);
                 } else {
                     setUserPosts([]);
@@ -98,7 +100,7 @@ export default function DashPosts(){
                                         </Link>
                                     </Table.Cell>
                                     <Table.Cell>
-                                        <Link to={`/post/${post.slug}`} className="font-medium text-gray-900 dark:text-white">
+                                        <Link to={`/post/${post.slug}`} className="font-medium text-gray-900 dark:text-white line-clamp-2">
                                             {post.title}    
                                         </Link>
                                     </Table.Cell>
@@ -124,7 +126,7 @@ export default function DashPosts(){
                     </Table.Body>
                  </Table>
                  {
-                    showMore && 
+                    showMore && (userPosts.length >= 9 && userPosts.length < totalPosts) && 
                     <button className="w-full text-teal-500 self-center text-sm py-7" onClick={handleShowMore}>
                         Show More
                     </button>
