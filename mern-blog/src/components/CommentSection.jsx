@@ -78,6 +78,24 @@ export default function CommentSection({postId}){
         }
     }
 
+
+    const handleDelete = async (commentId) => {
+        try{
+            const res = await fetch(`/api/comment/deletecomment/${commentId}/${currentUser._id}`,{
+                method: "DELETE",
+            });
+            const data = await res.json();
+            if(res.ok){
+                const index = commentList.findIndex( (comment) => comment._id === commentId);
+                const newCommentList = commentList.toSpliced(index, 1);
+                setCommentList(newCommentList);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
     const isLikedByUser = (commentId) => {
         const comment = commentList.filter( comment => comment._id === commentId);
         const commentLiked = comment[0].likes.includes(currentUser._id);
@@ -143,12 +161,14 @@ export default function CommentSection({postId}){
                             comment={comment}
                             onLike={handleLike}
                             isLikedByUser={isLikedByUser}
+                            onDelete={handleDelete}
                         />   
                     ))
                     }
                     </>
                 )
             }
+
         </div>
     )
 }

@@ -39,7 +39,7 @@ const getComments = async (req, res, next) => {
 
 const likeComment = async (req, res, next) => {
     if(!req.user.isAdmin){
-        return next(errorHandler(403,"You are not allowed to edit this post"));
+        return next(errorHandler(403,"You are not allowed to edit this comment"));
 
     }
 
@@ -66,4 +66,40 @@ const likeComment = async (req, res, next) => {
 }
 
 
-module.exports = {createComment, getComments, likeComment}
+const editComment = async (req, res, next) => {
+
+    try {
+        const comment = await Comment.findById(req.params.commentId);
+
+        if(!comment) return next(errorHandler(404, "Comment not found"));
+
+        if(req.user.id !== comment.userId){
+            return next(errorHandler(403,"You are not allowed to edit this comment"));
+        }
+        comment.content = req.body.content;
+        console.log(comment,req.body.content)
+
+        await comment.save();
+        res.status(200).json(comment);
+
+    } catch (error) {
+        next(error);
+    }
+}
+
+const deleteComment = async (req, res, next) => {
+    if(req.user.id !== req.params.userId || !req.user.isAdmin ){
+        return next(errorHandler(403,"You are not allowed to delete this comment"));
+    }
+
+    try {
+        await Comment.findByIdAndDelete(req.params.commentId);
+        res.status(200).json("Comment has been deleted");
+    } catch(error) {
+        next(error);
+    }
+}
+
+
+
+module.exports = {deleteComment, createComment, getComments, likeComment, editComment}

@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import {Button, Spinner} from 'flowbite-react';
-import CallToAction from "../components/CallToAction";
 import CommentSection from "../components/CommentSection";
+import PostCard from "../components/PostCard";
 
 export default function Post(){
     const {postSlug} = useParams();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [post, setPost] = useState(null);
+    const [recentPosts, setRecentPosts] = useState(null);
+    const [loadingRecent, setLoadingRecent] = useState(false);
 
     useEffect( () => {
         const fetchPost = async () => {
@@ -39,6 +41,21 @@ export default function Post(){
         fetchPost(); 
     },[postSlug]);
 
+    useEffect(() => {
+        const fetchRecent = async() => {
+            setLoadingRecent(true);
+            try{
+                const res = await fetch(`/api/post/getposts?order=desc&limit=3`);
+                const data = await res.json();
+                setRecentPosts(data.posts);
+                setLoadingRecent(false);
+            } catch(error) {
+                console.log(error)
+            }
+        }
+        fetchRecent();
+    },[])
+
     if(loading) return (
         <div className="flex justify-center items-center min-h-screen">
             <Spinner size={"xl"}/>
@@ -63,10 +80,19 @@ export default function Post(){
             <div dangerouslySetInnerHTML={{__html: post && post.content}} className="post-content 1p-3 max-w-2xl mx-auto w-full">
 
             </div>
-            {/* <div className="max-w-4xl mx-auto w-full">
-                <CallToAction/>
-            </div> */}
             <CommentSection postId={post._id}/>
+            <div className=" flex flex-col justify-center items-center mb-5 mt-5">
+                <h1 className="mb-5 text-xl">Recent articles</h1>
+                <div className="flex flex-wrap items-center gap-5 justify-center mt-5">
+                    {recentPosts && 
+                        recentPosts.map(post => 
+                            <PostCard
+                            post={post}
+                            key={post._id}/>
+                        )
+                    }
+                </div>
+            </div>
         </main>
     )
 }
