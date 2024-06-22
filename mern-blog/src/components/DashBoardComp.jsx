@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
-import {Table, Modal, Button} from 'flowbite-react'
+import {Table, Button} from 'flowbite-react'
 import {Link} from 'react-router-dom'
 import { HiAnnotation, HiArrowNarrowUp, HiDocumentText, HiOutlineUserGroup } from "react-icons/hi";
 

@@ -72,7 +72,7 @@ export default function Post(){
                      {post && post.category}
                 </Button>
             </Link>
-            <img src={post.image} alt={post && post.image} className="mt-10 p-3 max-h-[600px] w-full object-cover"/>
+            <img src={post && post.image} alt={post && post.image} className="mt-10 p-3 max-h-[600px] w-full object-cover"/>
             <div className="flex justify-between p-3 border-b border-slate-500 mx-auto w-full max-w-2xl text-xs">
                 <span>{post && new Date(post.createdAt).toLocaleDateString()}</span>
                 <span className="italic">{post && (post.content.length / 1000).toFixed(0)} mins read</span>
@@ -80,7 +80,7 @@ export default function Post(){
             <div dangerouslySetInnerHTML={{__html: post && post.content}} className="post-content 1p-3 max-w-2xl mx-auto w-full">
 
             </div>
-            <CommentSection postId={post._id}/>
+            <CommentSection postId={post && post._id}/>
             <div className=" flex flex-col justify-center items-center mb-5 mt-5">
                 <h1 className="mb-5 text-xl">Recent articles</h1>
                 <div className="flex flex-wrap items-center gap-5 justify-center mt-5">

@@ -77,7 +77,6 @@ const editComment = async (req, res, next) => {
             return next(errorHandler(403,"You are not allowed to edit this comment"));
         }
         comment.content = req.body.content;
-        console.log(comment,req.body.content)
 
         await comment.save();
         res.status(200).json(comment);

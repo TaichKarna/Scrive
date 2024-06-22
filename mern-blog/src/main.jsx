@@ -18,12 +18,22 @@ import AdminRoute from './components/AdminRoute.jsx'
 import CreatePost from './pages/CreatePost.jsx'
 import UpdatePost from './pages/UpdatePost.jsx'
 import PostPage from './pages/PostPage.jsx'
+import App from './pages/App.jsx'
+import Search from './pages/Search.jsx'
 
 const router = createBrowserRouter([
   {
     path:"/",
-    element: <Home/>,
+    element: <App/>,
     children: [
+      {
+        path: "/",
+        element: <Home/>
+      },
+      {
+        path: "/search",
+        element: <Search/>
+      },
       {
         path:"/about",
         element:<About/>
