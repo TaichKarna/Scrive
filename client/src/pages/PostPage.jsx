@@ -77,8 +77,7 @@ export default function Post(){
                 <span>{post && new Date(post.createdAt).toLocaleDateString()}</span>
                 <span className="italic">{post && (post.content.length / 1000).toFixed(0)} mins read</span>
             </div>
-            <div dangerouslySetInnerHTML={{__html: post && post.content}} className="post-content 1p-3 max-w-2xl mx-auto w-full">
-
+            <div dangerouslySetInnerHTML={{__html: post && post.content}} className="post-content 1p-3 max-w-2xl mx-auto pt-5 w-full">
             </div>
             <CommentSection postId={post && post._id}/>
             <div className=" flex flex-col justify-center items-center mb-5 mt-5">

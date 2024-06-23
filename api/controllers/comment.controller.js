@@ -38,10 +38,7 @@ const getComments = async (req, res, next) => {
 }
 
 const likeComment = async (req, res, next) => {
-    if(!req.user.isAdmin){
-        return next(errorHandler(403,"You are not allowed to edit this comment"));
 
-    }
 
     try {
         const comment = await Comment.findById(req.params.commentId);
@@ -87,7 +84,7 @@ const editComment = async (req, res, next) => {
 }
 
 const deleteComment = async (req, res, next) => {
-    if(req.user.id !== req.params.userId || !req.user.isAdmin ){
+    if(req.user.id !== req.params.userId && !req.user.isAdmin ){
         return next(errorHandler(403,"You are not allowed to delete this comment"));
     }
 
