@@ -5,7 +5,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon mern-backend/index.js",
-    "start": "node mern-backend/index.js"
+    "start": "node mern-backend/index.js",
+    "build": "npm install && npm install --prefix mern-blog && npm run build --prefix mern-blog"
   },
   "keywords": [],
   "author": "",

@@ -6,6 +6,7 @@ const authRouter = require('./routes/auth.route')
 const postRouter = require('./routes/post.route')
 const commentRouter = require('./routes/comment.route')
 const cookieParser = require('cookie-parser')
+const path = require('path')
 
 const app = express();
 
@@ -18,6 +19,8 @@ app.listen(3000,() => {
     console.log("listening to this server")
 })
 
+const __dirname = path.resolve();
+
 app.use(express.json())
 app.use(cookieParser())
 app.use(express.urlencoded())
@@ -26,6 +29,12 @@ app.use("/api/user",userRouter)
 app.use("/api/auth",authRouter)
 app.use("/api/post",postRouter);
 app.use("/api/comment",commentRouter)
+
+app.use(express.static(path.join(__dirname,'/client/dist')));
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname,'client','dist','index.html'));
+})
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;
