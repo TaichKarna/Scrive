@@ -19,7 +19,6 @@ app.listen(3000,() => {
     console.log("listening to this server")
 })
 
-const __dirname = path.resolve();
 
 app.use(express.json())
 app.use(cookieParser())
