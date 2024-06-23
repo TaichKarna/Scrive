@@ -6,7 +6,7 @@ import ScrollToTop from "../components/ScrollToTop"
 export default function App() {
 
   return (
-    <div className="">
+    <div >
       <ScrollToTop/>
       <Header/>
       <Outlet/>

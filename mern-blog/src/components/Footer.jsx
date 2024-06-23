@@ -18,16 +18,16 @@ export default function FooterBlog() {
                 <Footer.Title title="About" />
                 <Footer.LinkGroup col>
                   <Footer.Link
-                  href="./"
-                  target="_blank"
-                  rel="noopener noreferrer">
-                    100 js projects
-                  </Footer.Link>
-                  <Footer.Link
-                  href="./"
+                  href="/about"
                   target="_blank"
                   rel="noopener noreferrer">
                     Taichi's Blog
+                  </Footer.Link>
+                  <Footer.Link
+                  href="/projects"
+                  target="_blank"
+                  rel="noopener noreferrer">
+                    Projects
                   </Footer.Link>
                 </Footer.LinkGroup>
               </div>
@@ -35,13 +35,13 @@ export default function FooterBlog() {
                 <Footer.Title title="Follow Us" />
                   <Footer.LinkGroup col>
                     <Footer.Link
-                    href="./"
+                    href="https://www.github.com/taichkarna"
                     target="_blank"
                     rel="noopener noreferrer">
                       Github
                     </Footer.Link>
                     <Footer.Link
-                    href="./"
+                    href="https://discord.com/app/"
                     target="_blank"
                     rel="noopener noreferrer">
                       Discord
@@ -72,7 +72,7 @@ export default function FooterBlog() {
               <Footer.Copyright href="#" by="TaichiKarna" year={new Date().getFullYear()}/>
             <div className="flex sm:mt-0 mt-4 gap-6 sm:justify-center">
               <Footer.Icon href="#" icon={FaDiscord}/>
-              <Footer.Icon href="#" icon={FaGithub}/>
+              <Footer.Icon  href="https://www.github.com/taichkarna" icon={FaGithub}/>
               <Footer.Icon href="#" icon={FaFacebook}/>
               <Footer.Icon href="#" icon={FaInstagram}/>
 

@@ -36,3 +36,14 @@
 .dark .post-content a {
   color: red;
 }
+
+.dark .svg-icon-project{
+  fill: white;
+}
+
+.svg-icon-project{
+  fill: rgb(12, 74, 110);
+}
+
+
+

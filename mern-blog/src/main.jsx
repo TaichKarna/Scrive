@@ -90,6 +90,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             </RouterProvider>   
           </ThemeProvider>
       </PersistGate>
-  </Provider>,
-  </React.StrictMode>,
+  </Provider>
+  </React.StrictMode>
 )
