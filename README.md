@@ -1,4 +1,3 @@
-
 # Blog App
 
 This is a full-stack blog application built using Node.js, Express, React, and MongoDB, with JWT-based authentication. The app allows users to create, read, update, and delete blog posts, while the admin can monitor platform metrics such as user counts and post views.
@@ -20,7 +19,21 @@ This is a full-stack blog application built using Node.js, Express, React, and M
 - **Backend**: Node.js, Express
 - **Database**: MongoDB
 - **Authentication**: JSON Web Tokens (JWT)
-  
+
+## Previews
+
+### User Dashboard
+![User Dashboard](./previews/user-dashboard.png)
+
+### Post Creation
+![Create Post](./previews/create-post.png)
+
+### Admin Panel - User Monitoring
+![Admin Panel - User Monitoring](./previews/admin-users.png)
+
+### Admin Panel - Post Statistics
+![Admin Panel - Post Statistics](./previews/admin-post-stats.png)
+
 ## Installation
 
 ### Prerequisites
@@ -41,7 +54,7 @@ cd blog-app
 For the server:
 
 ```bash
-cd server
+cd Blog-MERN
 npm install
 ```
 
@@ -67,48 +80,64 @@ PORT=5000
 #### Backend (Express API)
 
 ```bash
-cd server
-npm start
+npm run dev
 ```
 
 #### Frontend (React)
 
 ```bash
 cd client
-npm start
+npm run dev
 ```
 
-By default, the backend will be running on `http://localhost:5000` and the frontend on `http://localhost:3000`.
+By default, the backend will be running on `http://localhost:3000` and the frontend on `http://localhost:5173`.
+
+## API Endpoints
 
 ## API Endpoints
 
 ### Authentication
 
-- `POST /api/auth/login`: User login.
-- `POST /api/auth/register`: User registration.
+- `POST /signup`: User registration.
+- `POST /signin`: User login.
+- `POST /google`: Google OAuth login.
+- `POST /signout`: User sign out.
+
+### Users
+
+- `GET /test`: Test user route.
+- `PUT /update/:userId`: Update user details (Authenticated).
+- `DELETE /delete/:userId`: Delete user account (Authenticated).
+- `GET /getusers`: Get a list of all users (Authenticated).
+- `GET /:userId`: Get details of a specific user.
 
 ### Posts
 
-- `GET /api/posts`: Get all posts.
-- `POST /api/posts`: Create a new post (Authenticated).
-- `PUT /api/posts/:id`: Edit a post (Authenticated).
-- `DELETE /api/posts/:id`: Delete a post (Authenticated).
+- `POST /create`: Create a new post (Authenticated).
+- `GET /getposts`: Get all posts.
+- `DELETE /deletepost/:postId/:userId`: Delete a post by ID (Authenticated, user-specific).
+- `PUT /update-post/:postId/:userId`: Update a post by ID (Authenticated, user-specific).
 
-### Admin
+### Comments
 
-- `GET /api/admin/users`: Get all users (Admin only).
-- `GET /api/admin/posts`: Get post statistics (Admin only).
+- `POST /create`: Create a comment on a post (Authenticated).
+- `GET /getcomments`: Get all comments (Authenticated).
+- `GET /getcomments/:postId`: Get comments for a specific post.
+- `PUT /likecomment/:commentId`: Like a comment (Authenticated).
+- `PUT /editcomment/:commentId`: Edit a comment (Authenticated).
+- `DELETE /deletecomment/:commentId/:userId`: Delete a comment by ID (Authenticated, user-specific).
 
 ## Admin Panel
 
-To access the admin panel, you need to log in with an admin account. The admin panel allows monitoring:
+To access the admin panel, you need to log in with an admin account. The admin panel allows the admin to manage users, posts, comments, and view important platform statistics. Below are the admin-related functionalities and routes.
 
-- Total number of users.
-- Post views, likes, and other metrics.
+### Admin Features
+
+- **Monitor Users**: Get the total number of users, view individual user details, and delete users.
+- **Manage Posts**: View post statistics (views, likes), delete posts.
+- **Manage Comments**: View comments on posts, delete comments.
 
 ## License
 
 This project is licensed under the MIT License.
-```
 
-You can adjust the repository URL and other details as needed. Let me know if you need any further customization!
