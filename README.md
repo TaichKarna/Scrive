@@ -21,18 +21,20 @@ This is a full-stack blog application built using Node.js, Express, React, and M
 - **Authentication**: JSON Web Tokens (JWT)
 
 ## Previews
-
-### User Dashboard
-![User Dashboard](./previews/user-dashboard.png)
+### Post 
+![View Post](assets/images/240924_02h46m38s_screenshot.png)
 
 ### Post Creation
-![Create Post](./previews/create-post.png)
+![Create Post](assets/images/240924_03h02m43s_screenshot.png)
 
-### Admin Panel - User Monitoring
-![Admin Panel - User Monitoring](./previews/admin-users.png)
+### User Dashboard
+![User Dashboard](assets/images/240924_03h04m20s_screenshot.png)
+
+### Post Search
+![search for a post](assets/images/240924_03h10m33s_screenshot.png)
 
 ### Admin Panel - Post Statistics
-![Admin Panel - Post Statistics](./previews/admin-post-stats.png)
+![Admin Panel - Post Statistics](assets/images/240924_03h12m10s_screenshot.png)
 
 ## Installation
 
