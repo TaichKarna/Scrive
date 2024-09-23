@@ -1,6 +1,4 @@
-Here is a `README.md` for your blog app:
 
-```markdown
 # Blog App
 
 This is a full-stack blog application built using Node.js, Express, React, and MongoDB, with JWT-based authentication. The app allows users to create, read, update, and delete blog posts, while the admin can monitor platform metrics such as user counts and post views.
